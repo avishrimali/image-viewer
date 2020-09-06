@@ -35,7 +35,7 @@ console.log("result...",result);
         .then(
             (result) => {
 
-              this.setState({userProfileData: result.data});
+              this.setState({userProfileData: result.data, filterData: result.data});
               console.log("result recent...",this.state.userProfileData);
             },
             (error) => {
@@ -46,13 +46,30 @@ console.log("result...",result);
   render() {
     return (
       <div>
-        <Header {...this.props} showSearchBarAndProfileIcon={true} />
+        <Header {...this.props} showSearchBarAndProfileIcon={true} searchChangeHandler={this.searchChangeHandler}/>
         <Container maxWidth="xl">
-         <ImageCard data={this.state.userProfileData}/>
+         <ImageCard data={this.state.filterData}/>
         </Container>
       </div>
     )
   }
+
+  searchChangeHandler = event => {
+    console.log("event.target.value..",event.target.value);
+    this.setState({ searchValue: event.target.value });
+    if (event.target.value) {
+      const filterValue = this.state.filterData.filter(data => {
+        if (data.caption.text.split('#')[0].indexOf(this.state.searchValue) > -1) {
+          return data;
+        }
+      });
+      console.log("filterValue..", filterValue);
+      this.setState({filterData: filterValue});
+    } else {
+      this.setState({filterData: this.state.userProfileData});
+    }
+  }
+
 }
 
 export default Home;

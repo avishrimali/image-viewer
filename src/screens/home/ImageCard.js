@@ -12,68 +12,83 @@ import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Grid from "@material-ui/core/Grid";
 import './ImageCard.css';
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
-  card: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
+    card: {
+        maxWidth: 345,
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
+    avatar: {
+        backgroundColor: red[500],
+    },
 }));
 
 function changeToDate(created_time) {
-  var date = new Date(parseInt(created_time));
-  return date.toDateString();
+    var date = new Date(parseInt(created_time));
+    return date.toDateString();
 }
 
 export default function ImageCard(props) {
-  const classes = useStyles();
-  return (
-      <Grid container spacing={3}  direction="row"
+    const classes = useStyles();
+    return (
+        <Grid container spacing={3} direction="row" justify="center"
             alignItems="center">
-      {props.data&&props.data.map((person) => (
-          <Grid  justify="center" item xs={6} key={person.id}>
-      <Card className={classes.card} variant="outlined">
-        <CardHeader
-            avatar={
-              <Avatar alt={person.user.full_name} src={person.user.profile_picture} />
-            }
-            title={person.user.username}
-            subheader={ changeToDate(person.caption.created_time)}
-        />
-        <CardMedia
-            className={classes.media}
-            image={person.images.standard_resolution.url}
-            title="Paella dish"
-        />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {person.caption.text}
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <span>{person.likes.count} likes</span>
-        </CardActions>
-      </Card>
-          </Grid>))}
-      </Grid>
-  );
+            {props.data && props.data.map((person) => (
+                <Grid item xs={6} key={person.id}>
+                    <Card className={classes.card} variant="outlined">
+                        <CardHeader
+                            avatar={
+                                <Avatar alt={person.user.full_name} src={person.user.profile_picture} />
+                            }
+                            title={person.user.username}
+                            subheader={changeToDate(person.caption.created_time)}
+                        />
+                        <CardMedia
+                            className={classes.media}
+                            image={person.images.standard_resolution.url}
+                            title="Paella dish"
+                        />
+                        <CardContent>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                {person.caption.text.split('#')[0]}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                {person.tags.map(((tag) => {
+                                    return <Button size="small" color="primary">#{tag}</Button>
+                                }))}
+                            </Typography>
+                        </CardContent>
+                        <CardActions disableSpacing>
+                            <IconButton aria-label="add to favorites">
+                                <FavoriteIcon />
+                            </IconButton>
+                            <span>{person.likes.count} likes</span>
+                        </CardActions>
+                        <div style={{ margin: '1rem' }}>
+                            <form className={classes.root} noValidate autoComplete="off">
+                                <TextField id="standard-basic" label="Add a comment" />
+                                <Button variant="contained" color="primary">
+                                    Add
+                                </Button>
+                            </form>
+                        </div>
+                    </Card>
+                </Grid>))}
+        </Grid>
+    );
 }
