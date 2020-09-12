@@ -5,9 +5,9 @@ import Home from './home/Home';
 import Profile from "./profile/Profile";
 
 class Controller extends Component {
-  constructor(){
+  constructor() {
     super();
-    this.baseUrl = 'https://api.instagram.com/v1/users/self/';
+    this.baseUrl = 'https://graph.instagram.com/';
   }
   render() {
     return (
@@ -22,4 +22,4 @@ class Controller extends Component {
   }
 }
 
-export default Controller; 
+export default Controller;
