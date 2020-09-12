@@ -14,7 +14,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
 function getModalStyle() {
-  const top = 30;
+  const top = 33;
   const left = 33;
 
   return {
@@ -26,7 +26,7 @@ function getModalStyle() {
 const useStyles = makeStyles(theme => ({
   paper: {
     position: "absolute",
-    width: "33%",
+    width: "34%",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3)

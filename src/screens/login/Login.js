@@ -23,7 +23,7 @@ class Login extends Component {
     };
   }
 
-  inputUsernameChangeHandler = e => {
+  inputUsernameHandler = e => {
     this.setState({
       username: e.target.value
     });
@@ -33,7 +33,7 @@ class Login extends Component {
       this.setState({ usernameRequired: false });
     }
   };
-  inputPasswordChangeHandler = e => {
+  inputPasswordHandler = e => {
     this.setState({
       password: e.target.value
     });
@@ -53,7 +53,7 @@ class Login extends Component {
       ) {
         sessionStorage.setItem(
           "access-token",
-          "IGQVJWWmoydmZAPeUc2cWxnOEt5RVBZATUdTTk1Ja05LbGlXOHI4Y01mZAjNsMWY4VDEtZAmZAYX2tJemFMN3hGTlJ1YUp2c3lqZAUpENm1jS0J3aVlwenl1ZAlVNcjBQRE84d0psSWFqdzBfMzRXM1NqSENjYTYwM1h2UGFfbVk4"
+          "IGQVJWRTRYaXFyVTZAWT1JrUHZAFYkF4SDBabVcyNXVTSjUxNXRObHZAwSF9EOHRPbkxlSDcybGJXU0lUal91U3BJWU0xMmM4Snp0TWpRYmZAXU3pfREVlbXc4M3owcGFFMkdmNHVCY09LTFEtWWZAvdWs1azFFTHJGdE9pMEVr"
         );
         this.props.history.push("/home");
       } else {
@@ -78,7 +78,7 @@ class Login extends Component {
                   id="username"
                   type="text"
                   username={this.state.username}
-                  onChange={this.inputUsernameChangeHandler}
+                  onChange={this.inputUsernameHandler}
                 />
                 {this.state.usernameRequired ? (
                   <FormHelperText>
@@ -94,7 +94,7 @@ class Login extends Component {
                   id="password"
                   type="password"
                   password={this.state.password}
-                  onChange={this.inputPasswordChangeHandler}
+                  onChange={this.inputPasswordHandler}
                 />
                 {this.state.passwordRequired ? (
                   <FormHelperText>

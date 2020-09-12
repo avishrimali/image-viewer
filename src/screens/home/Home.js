@@ -9,20 +9,20 @@ class Home extends Component {
     this.state = {
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
       userProfileData: {
-          full_name: 'avinsha shrimali',
-          profile_picture: ''
+        full_name: 'Avinash Shrimali',
+        profile_picture: 'https://scontent.cdninstagram.com/v/t51.29350-15/118885986_328768241703876_1409494140667970700_n.jpg?_nc_cat=104&_nc_sid=8ae9d6&_nc_ohc=CeFkYEPVjIQAX-_r17E&_nc_ht=scontent.cdninstagram.com&oh=9d991d4d20441fd91edec25ae569d1c1&oe=5F828618'
       },
       userData: null,
       filterData: [],
       userMediaData: [],
-        stateChange: false,
+      stateChange: false,
       searchValue: ""
     };
     this.getMediaDetails = this.getMediaDetails.bind(this);
-    this.getMediaIds = this.getMediaIds.bind(this);
+    this.getMediaInfo = this.getMediaInfo.bind(this);
   }
 
-  getUserProfileDetails() {
+  getUserProfileInfo() {
     fetch(
       this.props.baseUrl +
       "?access_token=" +
@@ -35,13 +35,13 @@ class Home extends Component {
         },
         error => {
           console.log("error...", error);
-            this.props.history.push("/login");
+          this.props.history.push("/login");
         }
       );
   }
 
-  getMediaIds() {
-    this.setState({userMediaData: []})
+  getMediaInfo() {
+    this.setState({ userMediaData: [] })
     fetch(
       this.props.baseUrl +
       "me/media?fields=id,caption&access_token=" +
@@ -57,46 +57,46 @@ class Home extends Component {
         },
         error => {
           console.log("error...", error);
-            this.props.history.push("/login");
+          this.props.history.push("/login");
         }
       );
   }
- getMediaDetails = (data, baseUrl) => {
-   let detailsData = [];
+  getMediaDetails = (data, baseUrl) => {
+    let detailsData = [];
     data.forEach(value => {
-      if(value.id) {
-        const url = baseUrl +  value.id +
-            "?fields=id,media_type,media_url,username,timestamp&access_token=" +
-            sessionStorage.getItem("access-token");
+      if (value.id) {
+        const url = baseUrl + value.id +
+          "?fields=id,media_type,media_url,username,timestamp&access_token=" +
+          sessionStorage.getItem("access-token");
         fetch(url)
-            .then(res => res.json())
-            .then(
-                result => {
-                  const data = result;
-                    data["caption"] = value.caption;
-                  detailsData.push(data);
-                 this.state.userMediaData.push(result);
-                //  this.setState({
-                //      stateChange: !this.state.stateChange,
-                //      filterData: this.state.userMediaData
-                //  })
-                },
-                error => {
-                  console.log("error...", error);
-                  this.props.history.push("/login");
-                }
-            );
+          .then(res => res.json())
+          .then(
+            result => {
+              const data = result;
+              data["caption"] = value.caption;
+              detailsData.push(data);
+              this.state.userMediaData.push(result);
+              this.setState({
+                stateChange: !this.state.stateChange,
+                filterData: this.state.userMediaData
+              })
+            },
+            error => {
+              console.log("error...", error);
+              this.props.history.push("/login");
+            }
+          );
       }
 
     });
   };
 
-  componentDidMount() {
+ componentDidMount() {
     if (this.state.loggedIn === false) {
       this.props.history.push("/");
     }
-    this.getUserProfileDetails();
-    this.getMediaIds();
+    this.getUserProfileInfo();
+    this.getMediaInfo();
   }
   render() {
     return (
@@ -107,7 +107,7 @@ class Home extends Component {
           searchChangeHandler={this.searchChangeHandler}
         />
         <Container maxWidth="xl">
-          <ImageCard data={this.state.filterData}/>
+          <ImageCard data={this.state.filterData} />
         </Container>
       </div>
     );
@@ -116,15 +116,14 @@ class Home extends Component {
   searchChangeHandler = event => {
     this.setState({ searchValue: event.target.value });
     if (event.target.value) {
-      // eslint-disable-next-line
-      const filterValue = this.state.filterData.filter(data => {
+      const filter = this.state.filterData.filter(data => {
         if (
           data.caption.split("#")[0].indexOf(this.state.searchValue) > -1
         ) {
           return data;
         }
       });
-      this.setState({ filterData: filterValue });
+      this.setState({ filterData: filter });
     } else {
       this.setState({ filterData: this.state.userMediaData });
     }

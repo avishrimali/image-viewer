@@ -33,14 +33,18 @@
     display: inline-block;
     position: relative;
     vertical-align: middle;
-    margin: 5px;
+    margin: 4px;
 }
 .searchInput {
     display: inline-block;
-    width: 300px;
+    width: 250px;
 }
 .header-right {
     display: inline-flex;
     position: relative;
     float: right;
-} 
+}
+#profile-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+}
